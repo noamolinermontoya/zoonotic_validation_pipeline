@@ -4,8 +4,8 @@
     # - Una copia del Excel original con las celdas que contienen errores resaltadas.
     # - Un informe en Word que resume los errores encontrados y proporciona detalles para su revisión.
 
-from collections import Counter
-from pathlib import Path
+from collections import Counter # Importamos Counter para contar el número de incidencias por tipo de error, lo que nos permite generar un resumen claro en el informe de Word.
+from pathlib import Path # Importamos Path para manejar las rutas de los archivos de manera más robusta y compatible con diferentes sistemas operativos.
 
 import pandas as pd
 from docx import Document
@@ -14,14 +14,15 @@ from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 
 
-ERROR_FILL = PatternFill(fill_type="solid", fgColor="FFF2CC")
+ERROR_FILL = PatternFill(fill_type="solid", fgColor="FFF2CC") # Un color de relleno amarillo claro para resaltar las celdas con errores en el Excel marcado. Se puede personalizar según las preferencias de visualización.
 
-
+# Esta función toma un DataFrame con los errores detectados y lo guarda en un archivo Excel. El parámetro index=False se utiliza para evitar que se guarde una columna adicional con los índices del DataFrame, lo que hace que el archivo de salida sea más limpio y fácil de leer. El nombre del archivo de salida se especifica a través del parámetro output_file.
 def save_errors_to_excel(errors_df: pd.DataFrame, output_file: str) -> None:
     """Save the error table as a simple Excel file."""
     errors_df.to_excel(output_file, index=False)
+# ============================================================
 
-
+# Esta función crea una copia del archivo Excel original y resalta las celdas que contienen errores a nivel de celda. Carga el libro de Excel, accede a la hoja especificada, y luego itera sobre los errores que son a nivel de celda para aplicar un relleno de color a las celdas correspondientes. Finalmente, guarda el libro modificado con un nuevo nombre especificado por output_file. Es importante destacar que solo se pueden resaltar los errores que están asociados a celdas específicas, ya que los errores estructurales como la falta de columnas no tienen una celda concreta que resaltar.
 def create_marked_excel(
     input_file: str,
     sheet_name,
@@ -46,8 +47,12 @@ def create_marked_excel(
                 ).fill = ERROR_FILL
 
     workbook.save(output_file)
+# ============================================================
 
-
+# Esta función genera un informe en formato Word que incluye un resumen de los errores detectados, un desglose por tipo de error, y una tabla detallada con cada incidencia. 
+# Utiliza la biblioteca python-docx para crear el documento, agregar encabezados, párrafos y tablas. 
+# El informe se guarda con el nombre especificado en output_file. 
+# Este informe es útil para que los usuarios puedan revisar fácilmente los errores encontrados y entender qué aspectos necesitan ser corregidos en el Excel original.
 def create_word_report(errors_df: pd.DataFrame, output_file: str) -> None:
     """Generate a clear Word report with summary and detailed tables."""
     document = Document()

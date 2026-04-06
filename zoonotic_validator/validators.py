@@ -3,7 +3,7 @@
 # Cada función de validación se encarga de una regla específica y utiliza la configuración centralizada para aplicar las reglas de negocio de manera consistente.
 # Los errores detectados se registran utilizando la clase ValidationError, lo que permite una gestión estandarizada de los errores y facilita la generación de informes posteriores.
 
-from typing import Dict, List
+from typing import Dict, List # Importamos Dict y List para definir los tipos de las variables utilizadas en las funciones de validación, lo que mejora la legibilidad y el mantenimiento del código.
 
 import pandas as pd
 
@@ -15,9 +15,11 @@ from .utils import (
     is_valid_numeric_text,
     normalize_columns,
     normalize_text,
-)
+) # Importamos las funciones de utilidad que se utilizan en las validaciones, como la normalización de texto, la validación de formatos numéricos, y la clasificación de errores de formato numérico. Estas funciones ayudan a mantener el código de las validaciones limpio y reutilizable, centralizando la lógica común en un solo lugar.
 
-
+# Esta función es una utilidad interna que se utiliza para agregar un error de validación a la lista de errores de manera estandarizada. 
+# Toma los detalles del error como argumentos y crea una instancia de ValidationError, que luego se agrega a la lista de errores. 
+# Esto asegura que todos los errores se registren de manera consistente, lo que facilita su manejo y exportación a los archivos de salida.
 def _append_error(
     errors: List[ValidationError],
     *,
@@ -45,7 +47,17 @@ def _append_error(
     )
 
 
-def build_header_map(df: pd.DataFrame) -> Dict[str, int]:
+# Las siguientes funciones implementan las reglas de validación específicas para el pipeline de validación de datos zoonóticos.
+# Cada función se encarga de una regla de validación diferente: 
+    # como la validación de columnas requeridas, 
+    # la validación de valores obligatorios, 
+    # la validación de texto exacto, 
+    # la validación del año esperado, 
+    # la validación de valores de texto prohibidos, 
+    # y la validación de formatos numéricos. 
+#Estas funciones utilizan la configuración centralizada para aplicar las reglas de negocio y registran los errores utilizando la función _append_error para mantener un formato consistente en el registro de errores.
+
+def build_header_map(df: pd.DataFrame) -> Dict[str, int]: # Esta función construye un mapeo desde el nombre de la columna al número de columna en formato Excel (1-based). Esto es útil para las validaciones que necesitan referenciar la posición de la columna en el Excel, especialmente para resaltar las celdas con errores en los archivos de salida. El mapeo se construye utilizando enumerate para asignar un número a cada columna, comenzando desde 1 para coincidir con el formato de columnas en Excel.
     """Build a mapping from column name to 1-based Excel column position."""
     return {column: index + 1 for index, column in enumerate(df.columns)}
 
