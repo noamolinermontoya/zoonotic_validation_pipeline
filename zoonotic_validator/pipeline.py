@@ -1,3 +1,7 @@
+# pipeline.py --> FUNCIONES PRINCIPALES DEL PIPELINE DE VALIDACIÓN DE DATOS ZOONÓTICOS
+# Este módulo contiene las funciones principales que coordinan la ejecución del pipeline de validación de datos zoonóticos. 
+# Incluye la función run_validation_pipeline, que es el punto de entrada para ejecutar todo: el proceso de validación, desde la carga del Excel, pasando por la ejecución de las validaciones, hasta la generación de los archivos de salida con los resultados.
+
 import pandas as pd
 
 from .config import ValidationConfig

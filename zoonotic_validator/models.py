@@ -1,3 +1,7 @@
+# models.py --> MODELOS DE ERROR PARA EL PIPELINE DE VALIDACIÓN DE DATOS ZOONÓTICOS
+# Este módulo define la clase ValidationError, que representa un error detectado durante la validación de los datos en el Excel.
+# Esta clase se utiliza para estandarizar la forma en que se registran los errores, facilitando su manejo, exportación y generación de informes posteriores.
+
 from dataclasses import dataclass, asdict
 from typing import Optional, Any, Dict
 

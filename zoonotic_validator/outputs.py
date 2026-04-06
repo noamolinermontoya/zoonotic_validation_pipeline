@@ -1,3 +1,9 @@
+# outputs.py --> GENERACIÓN DE FICHEROS DE SALIDA PARA EL PIPELINE DE VALIDACIÓN DE DATOS ZOONÓTICOS
+# Este módulo contiene funciones para generar los archivos de salida del pipeline de validación de datos zoonóticos, incluyendo:
+    # - Un Excel con los errores detectados.
+    # - Una copia del Excel original con las celdas que contienen errores resaltadas.
+    # - Un informe en Word que resume los errores encontrados y proporciona detalles para su revisión.
+
 from collections import Counter
 from pathlib import Path
 

@@ -1,3 +1,8 @@
+# REGLAS DE VALIDACIÓN DE DATOS ZOONÓTICOS 
+# Este módulo contiene las funciones que implementan las reglas de validación de datos para el pipeline de validación de datos zoonóticos.
+# Cada función de validación se encarga de una regla específica y utiliza la configuración centralizada para aplicar las reglas de negocio de manera consistente.
+# Los errores detectados se registran utilizando la clase ValidationError, lo que permite una gestión estandarizada de los errores y facilita la generación de informes posteriores.
+
 from typing import Dict, List
 
 import pandas as pd
