@@ -35,7 +35,7 @@ class ValidationConfig:
     ])
     exact_rep_country: str = "ES | Spain"
     exact_lang: str = "EN | English"
-    expected_year: Optional[int] = 2025 # El año esperado para el campo repYear, se puede actualizar según las necesidades de validación. Si se establece como None, no se aplicará una validación específica para el año.
+    expected_year: Optional[int] = 2024 # El año esperado para el campo repYear, se puede actualizar según las necesidades de validación. Si se establece como None, no se aplicará una validación específica para el año.
     prohibited_text_values: List[str] = field(default_factory=lambda: ["Unspecified"]) # Lista de valores de texto que no están permitidos en los campos de texto, se puede ampliar según las necesidades de validación.
     numeric_columns_allow_decimals: List[str] = field(default_factory=lambda: ["sampWeight"]) # Lista de columnas numéricas que permiten decimales, se puede actualizar según las necesidades de validación. Las columnas que no estén en esta lista se validarán como enteros sin decimales.
     numeric_columns_integers_only: List[str] = field(default_factory=lambda: [

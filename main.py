@@ -11,7 +11,7 @@ from zoonotic_validator.pipeline import run_validation_pipeline
 # pip install pandas openpyxl python-docx notebook ipykernel
 # ============================================================
 
-input_file = "mi_excel_zoonoticos.xlsx" # Reemplace con el nombre de su archivo de Excel a validar
+input_file = "mi_excel_zoonoticos1.xlsx" # Reemplace con el nombre de su archivo de Excel a validar
 sheet_to_validate = 0 # Puede ser el nombre de la hoja o su índice (0 para la primera hoja) 
 errors_output_file = "errores_validaciones_generales.xlsx" # Nombre del archivo Excel donde se guardarán los errores detectados en las validaciones generales.
 marked_excel_output_file = "mi_excel_zoonoticos_marcado.xlsx" # Nombre del archivo Excel que se generará como copia del original, pero con las celdas que contienen errores resaltadas para facilitar su identificación.
