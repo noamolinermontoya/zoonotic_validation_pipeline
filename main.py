@@ -5,6 +5,7 @@
 import os
 import shutil
 from datetime import datetime
+from pathlib import Path
 
 from zoonotic_validator.config import CONFIG
 from zoonotic_validator.pipeline import run_validation_pipeline
@@ -15,8 +16,39 @@ from zoonotic_validator.pipeline import run_validation_pipeline
 # pip install pandas openpyxl python-docx notebook ipykernel
 # ============================================================
 
-script_dir = os.path.dirname(__file__) 
-input_file = os.path.join(script_dir, "2024_ICAN_ENTEROTOXINAprueba.xls")  # Reemplace con el nombre de su archivo de Excel a validar
+script_dir = os.path.dirname(__file__)
+
+# Buscar archivos Excel en la carpeta
+print("📁 Archivos Excel disponibles:")
+excel_files = []
+for file in sorted(os.listdir(script_dir)):
+    if file.lower().endswith(('.xls', '.xlsx')):
+        excel_files.append(file)
+        print(f"  {len(excel_files)}. {file}")
+
+if not excel_files:
+    print("❌ No se encontraron archivos Excel en la carpeta")
+    exit(1)
+
+# Si hay solo un archivo, usarlo automáticamente
+if len(excel_files) == 1:
+    selected_idx = 0
+    print(f"✓ Usando único archivo: {excel_files[0]}\n")
+else:
+    # Pedir al usuario que seleccione
+    while True:
+        try:
+            choice = input(f"\n🔹 Selecciona el número del archivo a validar (1-{len(excel_files)}): ").strip()
+            selected_idx = int(choice) - 1
+            if 0 <= selected_idx < len(excel_files):
+                break
+            print(f"❌ Debes ingresar un número entre 1 y {len(excel_files)}")
+        except ValueError:
+            print("❌ Por favor, ingresa un número válido")
+
+input_file = os.path.join(script_dir, excel_files[selected_idx])
+print(f"✓ Archivo seleccionado: {excel_files[selected_idx]}\n")
+
 sheet_to_validate = 1  # Puede ser el nombre de la hoja o su índice (0 para la primera hoja)
 
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

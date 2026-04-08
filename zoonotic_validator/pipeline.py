@@ -126,6 +126,6 @@ def run_validation_pipeline(
         errors_df=errors_df,
         output_file=marked_excel_output_file,
     )
-    create_word_report(errors_df, word_output_file)
+    create_word_report(errors_df, word_output_file, input_file=input_file)
 
     return errors_df
