@@ -81,17 +81,17 @@ def create_word_report(errors_df: pd.DataFrame, output_file: str, input_file: st
     """Generate a clear Word report with summary and detailed tables."""
     # Diccionario con descripciones de códigos de error
     error_descriptions = {
-        "E001": "Columna obligatoria faltante",
-        "E002": "Campo obligatorio vacío",
-        "E003": "Valor debe ser exactamente el especificado",
-        "E004": "Año en repYear no coincide con el año de Mapping_Options",
-        "E005": "Valor prohibido detectado",
-        "E006": "Formato numérico inválido",
-        "E007": "Formato recId inválido: CCAA en MAYÚSCULAS, agente válido, números según fila",
-        "E008": "Fila completa duplicada",
-        "E009": "Campo debe estar vacío pero contiene valor",
-        "E010": "Contenido en idioma no-inglés detectado",
-        "E011": "Desacuerdo en la versión del Excel",
+        # "E001": "Columna obligatoria faltante",
+        "E000": "Desacuerdo en la versión del Excel",
+        "E001": "Campo obligatorio vacío",
+        "E002": "Valor debe ser exactamente el especificado",
+        "E003": "Año en repYear no coincide con el año de Mapping_Options",
+        "E004": "Valor prohibido detectado",
+        "E005": "Formato numérico inválido",
+        "E006": "Formato recId inválido: CCAA en MAYÚSCULAS, agente válido, números según fila",
+        "E007": "Fila completa duplicada",
+        "E008": "Campo debe estar vacío pero contiene valor"
+        # "E010": "Contenido en idioma no-inglés detectado",
     }
     
     # Diccionario con mensajes específicos de revisión para cada tipo de error

@@ -62,26 +62,26 @@ def build_header_map(df: pd.DataFrame) -> Dict[str, int]: # Esta función constr
     return {column: index + 1 for index, column in enumerate(df.columns)}
 
 
-def validate_required_columns(
-    df: pd.DataFrame,
-    errors: List[ValidationError],
-    config: ValidationConfig,
-    sheet_name: str,
-) -> None:
-    """Validate that all expected columns are present in the input workbook."""
-    for column in config.required_columns:
-        if column not in df.columns:
-            _append_error(
-                errors,
-                excel_row="N/A",
-                field=column,
-                value="",
-                error_code="E001",
-                message=f"Falta la columna obligatoria '{column}' en el Excel.",
-                sheet_name=sheet_name,
-                is_cell_level=False,
-                excel_column=None,
-            )
+# def validate_required_columns(
+#     df: pd.DataFrame,
+#     errors: List[ValidationError],
+#     config: ValidationConfig,
+#     sheet_name: str,
+# ) -> None:
+#     """Validate that all expected columns are present in the input workbook."""
+#     for column in config.required_columns:
+#         if column not in df.columns:
+#             _append_error(
+#                 errors,
+#                 excel_row="N/A",
+#                 field=column,
+#                 value="",
+#                 error_code="E001",
+#                 message=f"Falta la columna obligatoria '{column}' en el Excel.",
+#                 sheet_name=sheet_name,
+#                 is_cell_level=False,
+#                 excel_column=None,
+#             )
 
 
 def validate_required_values(
@@ -104,7 +104,7 @@ def validate_required_values(
                     excel_row=excel_row,
                     field=column,
                     value=value,
-                    error_code="E002",
+                    error_code="E001",
                     message=f"El campo obligatorio '{column}' está vacío.",
                     sheet_name=sheet_name,
                     is_cell_level=True,
@@ -141,7 +141,7 @@ def validate_exact_text_columns(
                     excel_row=excel_row,
                     field=column,
                     value=value,
-                    error_code="E003",
+                    error_code="E002",
                     message=f"El campo '{column}' debe ser exactamente '{expected_text}'.",
                     sheet_name=sheet_name,
                     is_cell_level=True,
@@ -179,7 +179,7 @@ def validate_expected_year(
                 excel_row=excel_row,
                 field="repYear",
                 value=value,
-                error_code="E004",
+                error_code="E003",
                 message=f"El campo 'repYear' debe ser {config.expected_year} (año de la hoja Mapping_Options).",
                 sheet_name=sheet_name,
                 is_cell_level=True,
@@ -210,7 +210,7 @@ def validate_prohibited_text_values(
                     excel_row=excel_row,
                     field=column,
                     value=value,
-                    error_code="E005",
+                    error_code="E004",
                     message=(
                         f"El valor '{value}' no está permitido en el campo '{column}'."
                     ),
@@ -250,7 +250,7 @@ def validate_numeric_columns(
                     excel_row=excel_row,
                     field=column,
                     value=value,
-                    error_code="E006",
+                    error_code="E005",
                     message=classify_numeric_format_error(value, allow_decimal),
                     sheet_name=sheet_name,
                     is_cell_level=True,
@@ -317,7 +317,7 @@ def validate_recid_format(
                 excel_row=excel_row,
                 field="recId",
                 value=value,
-                error_code="E007",
+                error_code="E006",
                 message=f"El recId '{value}' debe terminar en números secuenciales (ej: 01, 02, etc.). Formato esperado: CCAA_AGENTE_### (ej: MU_Camp_01).",
                 sheet_name=sheet_name,
                 is_cell_level=True,
@@ -365,20 +365,20 @@ def validate_recid_format(
             )
             continue
 
-        # Validar que CCAA está en mayúsculas
-        if ccaa != ccaa.upper():
-            _append_error(
-                errors,
-                excel_row=excel_row,
-                field="recId",
-                value=value,
-                error_code="E007",
-                message=f"El recId '{value}' tiene el código de CCAA en minúsculas. Debe estar en MAYÚSCULAS. Ejemplo correcto: {ccaa.upper()}_{agente}_###.",
-                sheet_name=sheet_name,
-                is_cell_level=True,
-                excel_column=header_map.get("recId"),
-            )
-            continue
+        # # Validar que CCAA está en mayúsculas
+        # if ccaa != ccaa.upper():
+        #     _append_error(
+        #         errors,
+        #         excel_row=excel_row,
+        #         field="recId",
+        #         value=value,
+        #         error_code="E007",
+        #         message=f"El recId '{value}' tiene el código de CCAA en minúsculas. Debe estar en MAYÚSCULAS. Ejemplo correcto: {ccaa.upper()}_{agente}_###.",
+        #         sheet_name=sheet_name,
+        #         is_cell_level=True,
+        #         excel_column=header_map.get("recId"),
+        #     )
+        #     continue
 
         # Validar que el número coincida con la fila del Excel
         # Fila 2 (row_index=0) debe tener número 01, fila 3 (row_index=1) debe tener 02, etc.
@@ -419,7 +419,7 @@ def validate_duplicate_rows(
                 excel_row=excel_row,
                 field="(Fila completa)",
                 value="",
-                error_code="E008",
+                error_code="E007",
                 message=f"La fila completa está duplicada en el Excel.",
                 sheet_name=sheet_name,
                 is_cell_level=False,
@@ -448,7 +448,7 @@ def validate_empty_only_fields(
                     excel_row=excel_row,
                     field=column,
                     value=value,
-                    error_code="E009",
+                    error_code="E008",
                     message=f"El campo '{column}' debe estar vacío pero contiene: '{value}'.",
                     sheet_name=sheet_name,
                     is_cell_level=True,
@@ -471,7 +471,7 @@ def validate_year_mismatch(
         excel_row=1,  # Error a nivel de documento, no de fila específica
         field="Excel Version",
         value=f"Detectado: {detected_year}, Ingresado: {excel_version_year}",
-        error_code="E011",
+        error_code="E000",
         message=f"Desacuerdo en la versión del Excel: El archivo contiene datos de {detected_year}, pero indicaste que es de {excel_version_year}.",
         sheet_name=sheet_name,
         is_cell_level=False,
@@ -497,7 +497,7 @@ def run_general_validations(
 
     # Version validation intentionally omitted until the business rule is defined.
 
-    validate_required_columns(working_df, errors, config, sheet_name)
+    # validate_required_columns(working_df, errors, config, sheet_name)
     validate_required_values(working_df, errors, header_map, config, sheet_name)
     validate_exact_text_columns(working_df, errors, header_map, config, sheet_name)
     validate_expected_year(working_df, errors, header_map, config, sheet_name)
